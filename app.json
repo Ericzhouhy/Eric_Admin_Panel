@@ -18,15 +18,21 @@
     "list": [
       {
         "pagePath": "pages/privilege/privilege",
-        "text": "女王の特权"
+        "text": "女王の特权",
+        "iconPath": "images/tab/gift.png",
+        "selectedIconPath": "images/tab/gift.png"
       },
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home.png"
       },
       {
         "pagePath": "pages/recipe/recipe",
-        "text": "女王の菜谱"
+        "text": "女王の菜谱",
+        "iconPath": "images/tab/menu.png",
+        "selectedIconPath": "images/tab/menu.png"
       }
     ]
   },
