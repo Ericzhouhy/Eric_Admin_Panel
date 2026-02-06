@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="content-wrapper">
+    <image 
+      class="homepage-pic" 
+      src="{{homeImage}}" 
+      mode="aspectFit"
+    ></image>
+    
+    <text class="user-motto">{{motto}}</text>
+    
+    <button class="entry-button" bindtap="goToCoupon">进入管理后台</button>
+  </view>
+</view>

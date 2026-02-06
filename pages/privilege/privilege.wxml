@@ -1,0 +1,26 @@
+<view class="header-container">
+  <text class="header-title">我的特权</text>
+  <text class="header-subtitle">Wendy女王专属</text>
+</view>
+
+<view class="list-container">
+  <view 
+    class="privilege-item" 
+    wx:for="{{privileges}}" 
+    wx:key="id"
+    bindtap="handleTap"
+    data-title="{{item.title}}"
+  >
+    <view class="icon-box" style="background-color: {{item.color}}20; color: {{item.color}};">
+      {{item.icon}}
+    </view>
+    <view class="info-box">
+      <view class="title-row">
+        <text class="title">{{item.title}}</text>
+        <text class="tag" wx:if="{{index === 0}}">快过期</text>
+      </view>
+      <text class="desc">{{item.desc}}</text>
+      <text class="expiry-text">有效期至：{{item.expiryDate}}</text>
+    </view>
+  </view>
+</view>
