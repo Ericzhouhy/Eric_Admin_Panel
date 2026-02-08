@@ -1,2 +1,42 @@
-<!--pages/recipe/recipe.wxml-->
-<text>pages/recipe/recipe.wxml</text>
+<view class="container">
+  <scroll-view scroll-y="true" class="recipe-list" enhanced show-scrollbar="{{false}}">
+    <view class="recipe-card" wx:for="{{recipes}}" wx:key="id">
+      <view class="card-left">
+        <image class="recipe-img" src="{{item.image}}" mode="aspectFill"></image>
+      </view>
+      
+      <view class="card-right">
+        <view class="recipe-header">
+          <text class="recipe-name">{{item.name}}</text>
+        </view>
+        <view class="ingredients-box">
+          <view class="tag">🥕 食材</view>
+          <text class="recipe-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <view style="height: 180rpx;"></view>
+  </scroll-view>
+
+  <view class="fab-btn" bindtap="showPopup" hover-class="fab-active">
+    <view class="plus-icon"></view>
+  </view>
+
+  <view class="popup-mask" wx:if="{{isPopupVisible}}" bindtap="hidePopup"></view>
+  <view class="popup-content {{isPopupVisible ? 'popup-show' : ''}}">
+    <view class="popup-header">🍳 新增私人菜谱</view>
+    <view class="input-group">
+      <input class="popup-input" placeholder="菜名（如：番茄炒蛋）" model:value="{{newName}}" />
+      <textarea class="popup-textarea" placeholder="食材清单（如：鸡蛋、番茄、小葱）" model:value="{{newDesc}}" />
+      <view class="image-placeholder" bindtap="chooseImage">
+        <image wx:if="{{tempImagePath}}" src="{{tempImagePath}}" mode="aspectFill"></image>
+        <text wx:else>+ 点击上传菜品图片</text>
+      </view>
+    </view>
+    <view class="popup-footer">
+      <button class="btn-cancel" bindtap="hidePopup">取消</button>
+      <button class="btn-confirm" bindtap="addRecipe">确认入库</button>
+    </view>
+  </view>
+</view>

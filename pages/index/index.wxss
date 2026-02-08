@@ -30,10 +30,13 @@
 .entry-button {
   background-color: #07c160;
   color: white;
-  width: 320rpx !important; /* 强制按钮宽度 */
+  width: 320rpx !important; 
   height: 88rpx;
-  line-height: 88rpx;
   border-radius: 44rpx;
   font-size: 30rpx;
   font-weight: normal;
+  display: flex;
+  align-items: center;     
+  justify-content: center;  
+  padding: 0;              
 }

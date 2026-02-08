@@ -3,8 +3,8 @@ Page({
     privileges: [
       { id: 1, title: '小型特权卡', desc: '每周一张，周一更新，解释权在 Eric', icon: '👑', color: '#FF9500', expiryDate: '2026-05-20' },
       { id: 2, title: '小型特权卡', desc: '每周一张，周一更新，解释权在 Eric', icon: '👑', color: '#FF3B30', expiryDate: '2026-02-10' }, 
-      { id: 4, title: '吵架和好卡', desc: '无条件和好一次，解释权在 Eric', icon: '😡', color: '#5AC8FA', expiryDate: '2026-02-15' },
-      { id: 5, title: '无条件陪同卡', desc: '一切服从 Wendy 指示一整天，解释权在 Eric', icon: '🌹', color: '#FF9500', expiryDate: '2026-02-15' },
+      { id: 4, title: '吵架和好卡', desc: '无条件和好一次，解释权在 Eric', icon: '😡', color: '#5AC8FA', expiryDate: '2036-02-15' },
+      { id: 5, title: '无条件陪同卡', desc: '一切服从 Wendy 指示一整天，解释权在 Eric', icon: '🌹', color: '#FF9500', expiryDate: '2026-12-15' },
       { id: 6, title: '支配 Eric 病假卡', desc: '让 Eric 请一天病假陪 Wendy', icon: '😷', color: '#FF3B30', expiryDate: '2026-09-01' },
       { id: 7, title: '公粮卡', desc: '顾名思义', icon: '🛏', color: '#5AC8FA', expiryDate: '2026-12-31' },
       { id: 8, title: '禁咪卡', desc: '顾名思义', icon: '🔞', color: '#FF3B30', expiryDate: '2026-12-31' }
