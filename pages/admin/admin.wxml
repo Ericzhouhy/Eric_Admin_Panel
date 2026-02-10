@@ -1,0 +1,17 @@
+<view class="admin-container">
+  <view class="admin-header">👑 权力巅峰：发卡中心</view>
+
+  <view class="form-card">
+    <input class="admin-input" placeholder="特权卡名称" model:value="{{form.title}}" />
+    <textarea class="admin-textarea" placeholder="特权描述..." model:value="{{form.desc}}" />
+    
+    <view class="picker-group">
+      <picker mode="date" value="{{form.expiryDate}}" bindchange="onDateChange">
+        <view class="picker-item">有效期至: {{form.expiryDate}}</view>
+      </picker>
+      <input class="admin-input-small" placeholder="Icon" model:value="{{form.icon}}" />
+    </view>
+
+    <button class="btn-submit" bindtap="submitCard">立即发放特权</button>
+  </view>
+</view>

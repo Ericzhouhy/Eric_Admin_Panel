@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/privilege/privilege",
-    "pages/recipe/recipe"
+    "pages/recipe/recipe",
+    "pages/admin/admin"
   ],
   "window": {
     "navigationBarBackgroundColor": "#f8f8f8",

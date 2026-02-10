@@ -8,6 +8,6 @@
     
     <text class="user-motto">{{motto}}</text>
     
-    <button class="entry-button" bindtap="goToCoupon">进入管理后台</button>
+    <button class="entry-button" bindtap="goToAdmin">进入管理后台</button>
   </view>
 </view>
