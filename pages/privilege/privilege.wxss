@@ -26,15 +26,6 @@ page {
   padding: 0 15px;
 }
 
-.privilege-item {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-}
-
 .icon-box {
   width: 50px;
   height: 50px;
@@ -54,13 +45,6 @@ page {
   font-size: 17px;
   font-weight: 500;
   color: #333;
-  display: block;
-}
-
-.desc {
-  font-size: 13px;
-  color: #888;
-  margin-top: 4px;
   display: block;
 }
 
@@ -93,4 +77,35 @@ page {
 /* 让快过期的卡片稍微有点不同，比如边框更明显（可选） */
 .privilege-item:first-child {
   border: 1px solid rgba(255, 59, 48, 0.3);
+}
+
+/* 卡片被按住时的缩放和阴影变化 */
+.item-hover {
+  transform: scale(0.97); /* 稍微缩小，模拟按下效果 */
+  background-color: #fcfcfc !important; /* 颜色微变 */
+  opacity: 0.8;
+  transition: all 0.1s;
+}
+
+/* 给 info-box 里的描述增加一个最大行数，防止字太多撑破卡片 */
+.desc {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 最多显示两行 */
+  overflow: hidden;
+}
+
+/* 加上一个漂亮的卡片浮动阴影 */
+.privilege-item {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 18px 15px; /* 增加一点内间距 */
+  margin-bottom: 12px;
+  border-radius: 16px; /* 更圆润一点 */
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.03);
+  transition: transform 0.2s; /* 让回弹变平滑 */
 }

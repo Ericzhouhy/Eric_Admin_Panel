@@ -74,5 +74,34 @@ Page({
     const m = (date.getMonth() + 1).toString().padStart(2, '0');
     const d = date.getDate().toString().padStart(2, '0');
     return `${y}-${m}-${d}`;
+  },
+
+  handleTap(e) {
+    const { title } = e.currentTarget.dataset;
+
+    wx.showModal({
+      title: '确认行使特权？',
+      content: `亲爱的 Wendy，确定要使用【${title}】吗？一旦点击“确定”，此特权即视为已消耗哦。`,
+      confirmColor: '#FF3B30',
+      success: (res) => {
+        if (res.confirm) {
+          this.usePrivilege(title);
+        }
+      }
+    });
+  },
+
+  usePrivilege(title) {
+    wx.showLoading({ title: '正在生效中...' });
+    
+    // 这里建议以后可以加上更新数据库 isUsed 状态的逻辑
+    setTimeout(() => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '特权已开启！',
+        icon: 'success',
+        duration: 2000
+      });
+    }, 800);
   }
 })

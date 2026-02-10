@@ -10,6 +10,8 @@
     wx:key="id"
     bindtap="handleTap"
     data-title="{{item.title}}"
+    hover-class="item-hover"
+    hover-stay-time="100"
   >
     <view class="icon-box" style="background-color: {{item.color}}20; color: {{item.color}};">
       {{item.icon}}
