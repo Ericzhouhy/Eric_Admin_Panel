@@ -1,36 +1,94 @@
+// 1. 初始化数据库引用
+const db = wx.cloud.database();
+
 Page({
   data: {
-    recipes: [
-      { 
-        id: 1, 
-        name: '奶皮子糖葫芦', 
-        desc: '水果，奶油，牛奶', 
-        image: '/images/food/奶皮子糖葫芦.jpg' 
-      },
-      { 
-        id: 2, 
-        name: '板栗红烧肉', 
-        desc: '板栗，五花肉', 
-        image: '/images/food/板栗红烧肉.jpg' 
-      },
-      { 
-        id: 3, 
-        name: '清炒时蔬', 
-        desc: '豆角山药', 
-        image: '/images/food/清炒时蔬.jpg' 
-      },
-      { 
-        id: 4, 
-        name: '酸辣粉', 
-        desc: '午餐肉，鸡蛋，红薯粉', 
-        image: '/images/food/酸辣粉.jpg' 
-      }
-    ],
+    recipes: [], // 初始为空，从云端获取
     isPopupVisible: false,
     newName: '',
     newDesc: '',
-    tempImagePath: '' 
+    tempImagePath: ''
   },
+
+  /**
+   * 页面加载时执行
+   */
+  onLoad() {
+    this.fetchRecipes();
+  },
+
+  /**
+   * 从云数据库拉取最新菜谱
+   */
+  fetchRecipes() {
+    wx.showLoading({ title: '加载中...' });
+    
+    // 访问 recipes 集合，按时间倒序排列（最新的在前面）
+    db.collection('recipes')
+      .orderBy('createdAt', 'desc')
+      .get()
+      .then(res => {
+        this.setData({ recipes: res.data });
+        wx.hideLoading();
+      })
+      .catch(err => {
+        console.error("加载失败", err);
+        wx.hideLoading();
+      });
+  },
+
+  /**
+   * 核心功能：添加菜谱到后台
+   */
+  async addRecipe() {
+    const { newName, newDesc, tempImagePath } = this.data;
+
+    // 表单校验
+    if (!newName || !tempImagePath) {
+      wx.showToast({ title: '名字和照片都要有哦', icon: 'none' });
+      return;
+    }
+
+    wx.showLoading({ title: '正在入库...', mask: true });
+
+    try {
+      const cloudPath = `food-photos/${Date.now()}-${Math.floor(Math.random()*1000)}.jpg`;
+      
+      const uploadRes = await wx.cloud.uploadFile({
+        cloudPath: cloudPath,
+        filePath: tempImagePath
+      });
+
+      const result = await db.collection('recipes').add({
+        data: {
+          name: newName,
+          desc: newDesc || '暂无描述',
+          image: uploadRes.fileID, // 存入云端永久 ID
+          createdAt: db.serverDate() // 存入服务器时间
+        }
+      });
+
+      // 步骤 3: 提示成功并刷新列表
+      wx.showToast({ title: '入库成功', icon: 'success' });
+      
+      this.setData({
+        isPopupVisible: false,
+        newName: '',
+        newDesc: '',
+        tempImagePath: ''
+      });
+
+      this.fetchRecipes(); // 重新拉取列表，看到新菜品
+
+    } catch (err) {
+      console.error("操作失败", err);
+      wx.showToast({ title: '入库失败，请重试', icon: 'none' });
+    } finally {
+      wx.hideLoading();
+    }
+  },
+
+  // --- 其他交互逻辑 ---
 
   showPopup() {
     this.setData({ isPopupVisible: true });
@@ -39,16 +97,12 @@ Page({
   hidePopup() {
     this.setData({
       isPopupVisible: false,
-      // 清空数据（可选，防止下次打开还有上次填的内容）
       newName: '',
       newDesc: '',
       tempImagePath: ''
     });
   },
 
-  
-
-  // 选择图片
   chooseImage() {
     wx.chooseMedia({
       count: 1,
@@ -59,33 +113,5 @@ Page({
     });
   },
 
-  // 在你的 Page 逻辑中添加
-  preventTouchMove: function() {
-    // 什么都不做，拦截滑动事件
-    return;
-  },
-
-  addRecipe() {
-    if (!this.data.newName || !this.data.tempImagePath) {
-      wx.showToast({ title: '名字和照片都要有哦', icon: 'none' });
-      return;
-    }
-
-    const newRecipe = {
-      id: Date.now(),
-      name: this.data.newName,
-      desc: this.data.newDesc || '随缘放料',
-      image: this.data.tempImagePath
-    };
-
-    this.setData({
-      recipes: [newRecipe, ...this.data.recipes],
-      isPopupVisible: false,
-      newName: '',
-      newDesc: '',
-      tempImagePath: ''
-    });
-
-    wx.showToast({ title: '已加入菜单', icon: 'success' });
-  }
+  preventTouchMove() { return; }
 });

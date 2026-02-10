@@ -1,7 +1,10 @@
 // app.js
 App({
   onLaunch() {
-    // 展示本地存储能力
+    wx.cloud.init({
+      env: 'cloud1-1giym7k1018bb664', 
+      traceUser: true,
+    })
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)

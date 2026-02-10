@@ -35,7 +35,7 @@
       </view>
     </view>
     <view class="popup-footer">
-      <button class="btn-cancel" bindtap="hidePopup">取消</button>
+      <button class="btn-cancel" bindtap="hidePopup">再想想</button>
       <button class="btn-confirm" bindtap="addRecipe">确认入库</button>
     </view>
   </view>
