@@ -9,6 +9,12 @@ Page({
     this.syncAllPrivileges();
   },
 
+  async onPullDownRefresh() {
+    await this.syncAllPrivileges();
+    wx.stopPullDownRefresh(); // 记得停止，不然那个水滴头会一直转
+    wx.vibrateShort(); // 拉完震动一下，手感极佳
+  },
+
   async syncAllPrivileges() {
     wx.showLoading({ title: '女王特权同步中...' });
     try {
@@ -91,17 +97,40 @@ Page({
     });
   },
 
-  usePrivilege(title) {
+  async usePrivilege(title) {
     wx.showLoading({ title: '正在生效中...' });
     
-    // 这里建议以后可以加上更新数据库 isUsed 状态的逻辑
-    setTimeout(() => {
-      wx.hideLoading();
-      wx.showToast({
-        title: '特权已开启！',
-        icon: 'success',
-        duration: 2000
+    try {
+      // 1. 尝试更新数据库（针对你在管理后台发的卡）
+      // 注意：如果是代码生成的“自动卡”，数据库里查不到，会直接跳过更新
+      const updateRes = await db.collection('privileges').where({
+        title: title,
+        isUsed: false
+      }).update({
+        data: {
+          isUsed: true,
+          useTime: db.serverDate() // 记录一下使用时间
+        }
       });
-    }, 800);
+  
+      // 2. 模拟一点点“施法”延迟，体验更好
+      setTimeout(async () => {
+        wx.hideLoading();
+        wx.showToast({
+          title: '特权已开启！',
+          icon: 'success',
+          duration: 2000
+        });
+  
+        // 3. 核心：重新调用同步函数，刷新 Tab 页数据
+        await this.syncAllPrivileges();
+        
+      }, 800);
+  
+    } catch (err) {
+      wx.hideLoading();
+      console.error('使用失败', err);
+      wx.showToast({ title: '系统开小差了', icon: 'none' });
+    }
   }
 })
