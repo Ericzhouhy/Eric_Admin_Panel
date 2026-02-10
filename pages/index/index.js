@@ -1,30 +1,52 @@
 Page({
   data: {
-    // 首页中间展示的图片路径
     homeImage: '/images/homepage.png',
     motto: 'Eric 使用指南'
   },
 
-  // 虽然现在有 TabBar，但保留按钮跳转功能作为引导
   goToCoupon() {
     wx.switchTab({
       url: '/pages/privilege/privilege'
     })
   },
 
-  goToAdmin() {
-    wx.navigateTo({
-      url: '/pages/admin/admin',
-      success: () => {
-        console.log('跳转管理后台成功');
-      },
-      fail: (err) => {
-        console.error('跳转失败，请检查路径是否在 app.json 中注册', err);
-        wx.showToast({
-          title: '路径配置错误',
-          icon: 'none'
+  async goToAdmin() {
+    const ADMIN_OPENID = 'oViSW5Wt0WnNnZlrxSpTQNnDnIhc'; // 你的专属ID
+
+    wx.showLoading({ title: '身份验证中...' });
+
+    try {
+      // 1. 获取当前用户的 OpenID
+      // 注意：这里需要你有一个名为 'login' 的云函数
+      const res = await wx.cloud.callFunction({
+        name: 'login' 
+      });
+
+      const userOpenId = res.result.openid;
+
+      // 2. 身份比对
+      if (userOpenId === ADMIN_OPENID) {
+        wx.hideLoading();
+        wx.navigateTo({
+          url: '/pages/admin/admin'
+        });
+      } else {
+        wx.hideLoading();
+        wx.showModal({
+          title: '受限区域',
+          content: '只有 Eric 大王有管理权限 👑',
+          showCancel: false,
+          confirmText: '遵命',
+          confirmColor: '#FF9500'
         });
       }
-    });
+    } catch (err) {
+      wx.hideLoading();
+      console.error('鉴权失败', err);
+      wx.showToast({
+        title: '网络开小差了',
+        icon: 'none'
+      });
+    }
   }
 })
