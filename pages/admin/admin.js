@@ -19,6 +19,27 @@ Page({
   onDateChange(e) {
     this.setData({ 'form.expiryDate': e.detail.value });
   },
+  
+  // 监听标题输入
+  onTitleInput(e) {
+    this.setData({
+      'form.title': e.detail.value
+    });
+  },
+
+  // 监听描述输入
+  onDescInput(e) {
+    this.setData({
+      'form.desc': e.detail.value
+    });
+  },
+
+  // 监听 Icon 输入
+  onIconInput(e) {
+    this.setData({
+      'form.icon': e.detail.value
+    });
+  },
 
   async fetchExistingCards() {
     const res = await db.collection('privileges').where({ isUsed: false }).get();
@@ -27,6 +48,10 @@ Page({
 
   async submitCard() {
     const { title, desc, expiryDate, icon } = this.data.form;
+    console.log('title: ',title);
+    console.log('desc: ',desc);
+    console.log('expiryDate: ',expiryDate);
+    console.log('icon: ',icon);
     if (!title || !desc) {
       return wx.showToast({ title: '填完整哦', icon: 'none' });
     }

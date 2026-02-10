@@ -2,8 +2,18 @@
   <view class="admin-header">👑 权力巅峰：发卡中心</view>
 
   <view class="form-card">
-    <input class="admin-input" placeholder="特权卡名称" model:value="{{form.title}}" />
-    <textarea class="admin-textarea" placeholder="特权描述..." model:value="{{form.desc}}" />
+    <input 
+      class="admin-input" 
+      placeholder="特权卡名称" 
+      value="{{form.title}}" 
+      bindinput="onTitleInput" 
+    />
+    <textarea 
+      class="admin-textarea" 
+      placeholder="特权描述..." 
+      value="{{form.desc}}" 
+      bindinput="onDescInput" 
+    />
     
     <view class="picker-group">
       <picker mode="date" value="{{form.expiryDate}}" bindchange="onDateChange">
