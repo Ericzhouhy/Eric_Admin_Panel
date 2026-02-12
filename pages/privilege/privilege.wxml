@@ -7,11 +7,10 @@
   <view 
     class="privilege-item" 
     wx:for="{{privileges}}" 
-    wx:key="id"
+    wx:key="_id"
     bindtap="handleTap"
     data-title="{{item.title}}"
-    hover-class="item-hover"
-    hover-stay-time="100"
+    data-index="{{index}}" 
   >
     <view class="icon-box" style="background-color: {{item.color}}20; color: {{item.color}};">
       {{item.icon}}
@@ -23,6 +22,27 @@
       </view>
       <text class="desc">{{item.desc}}</text>
       <text class="expiry-text">有效期至：{{item.expiryDate}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="service-mask {{showServicePicker ? 'show' : ''}}" bindtap="closePicker"></view>
+
+<view class="service-dialog {{showServicePicker ? 'show' : ''}}">
+  <view class="dialog-header">
+    <text class="dialog-title">请挑选服务 👑</text>
+    <text class="dialog-close" bindtap="closePicker">✕</text>
+  </view>
+  
+  <view class="service-grid">
+    <view class="service-option" wx:for="{{serviceOptions}}" wx:key="name" bindtap="selectService" data-name="{{item.name}}">
+      <view class="service-icon" style="background: {{item.color}}15;">{{item.icon}}</view>
+      <text class="service-name">{{item.name}}</text>
+    </view>
+    
+    <view class="service-option" bindtap="selectService" data-name="其他...">
+      <view class="service-icon" style="background: #f0f0f0;">🪄</view>
+      <text class="service-name">其他...</text>
     </view>
   </view>
 </view>

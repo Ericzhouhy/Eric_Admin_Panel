@@ -2,7 +2,13 @@
   <scroll-view scroll-y="true" class="recipe-list" enhanced show-scrollbar="{{false}}">
     <view class="recipe-card" wx:for="{{recipes}}" wx:key="id">
       <view class="card-left">
-        <image class="recipe-img" src="{{item.image}}" mode="aspectFill"></image>
+        <image 
+          class="recipe-img" 
+          wx:if="{{item.image}}" 
+          src="{{item.image}}" 
+          mode="aspectFill"
+          lazy-load
+        ></image>
       </view>
       
       <view class="card-right">

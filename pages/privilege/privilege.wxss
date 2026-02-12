@@ -109,3 +109,83 @@ page {
   box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.03);
   transition: transform 0.2s; /* 让回弹变平滑 */
 }
+
+/* 遮罩层 */
+.service-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.service-mask.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* 弹窗主体 */
+.service-dialog {
+  position: fixed;
+  bottom: -600rpx; /* 初始在屏幕下方 */
+  left: 0; right: 0;
+  background: #fff;
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 40rpx;
+  z-index: 1001;
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+.service-dialog.show {
+  bottom: 0;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+.dialog-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+.dialog-close {
+  color: #ccc;
+  font-size: 40rpx;
+  padding: 10rpx;
+}
+
+/* 网格布局 */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30rpx;
+  padding-bottom: 60rpx;
+}
+
+.service-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.1s;
+}
+.service-option:active {
+  transform: scale(0.9);
+}
+
+.service-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50rpx;
+  margin-bottom: 16rpx;
+}
+.service-name {
+  font-size: 26rpx;
+  color: #666;
+}

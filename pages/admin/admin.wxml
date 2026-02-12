@@ -19,7 +19,12 @@
       <picker mode="date" value="{{form.expiryDate}}" bindchange="onDateChange">
         <view class="picker-item">有效期至: {{form.expiryDate}}</view>
       </picker>
-      <input class="admin-input-small" placeholder="Icon" model:value="{{form.icon}}" />
+      <input 
+        class="admin-input-small" 
+        placeholder="Icon" 
+        value="{{form.icon}}" 
+        bindinput="onIconInput" 
+      />
     </view>
 
     <button class="btn-submit" bindtap="submitCard">立即发放特权</button>

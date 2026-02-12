@@ -22,17 +22,22 @@ Page({
    */
   fetchRecipes() {
     wx.showLoading({ title: '加载中...' });
-    
-    // 访问 recipes 集合，按时间倒序排列（最新的在前面）
     db.collection('recipes')
       .orderBy('createdAt', 'desc')
       .get()
-      .then(res => {
-        this.setData({ recipes: res.data });
-        wx.hideLoading();
-      })
-      .catch(err => {
-        console.error("加载失败", err);
+      .then(async res => {
+        let list = res.data;
+        
+        // 提取所有云文件 ID
+        const fileIds = list.map(item => item.image);
+        
+        // 换取临时链接 (可选，能极大增加加载稳定性)
+        const urlRes = await wx.cloud.getTempFileURL({ fileList: fileIds });
+        list.forEach((item, index) => {
+          item.image = urlRes.fileList[index].tempFileURL;
+        });
+  
+        this.setData({ recipes: list });
         wx.hideLoading();
       });
   },
@@ -41,49 +46,23 @@ Page({
    * 核心功能：添加菜谱到后台
    */
   async addRecipe() {
+    if (this.data.isSubmitting) return; // 如果正在提交，直接返回
+    
     const { newName, newDesc, tempImagePath } = this.data;
-
-    // 表单校验
     if (!newName || !tempImagePath) {
       wx.showToast({ title: '名字和照片都要有哦', icon: 'none' });
       return;
     }
 
+    this.setData({ isSubmitting: true }); // 加锁
     wx.showLoading({ title: '正在入库...', mask: true });
 
     try {
-      const cloudPath = `food-photos/${Date.now()}-${Math.floor(Math.random()*1000)}.jpg`;
-      
-      const uploadRes = await wx.cloud.uploadFile({
-        cloudPath: cloudPath,
-        filePath: tempImagePath
-      });
-
-      const result = await db.collection('recipes').add({
-        data: {
-          name: newName,
-          desc: newDesc || '暂无描述',
-          image: uploadRes.fileID, // 存入云端永久 ID
-          createdAt: db.serverDate() // 存入服务器时间
-        }
-      });
-
-      // 步骤 3: 提示成功并刷新列表
-      wx.showToast({ title: '入库成功', icon: 'success' });
-      
-      this.setData({
-        isPopupVisible: false,
-        newName: '',
-        newDesc: '',
-        tempImagePath: ''
-      });
-
-      this.fetchRecipes(); // 重新拉取列表，看到新菜品
-
+      // ... 你的原有逻辑 ...
     } catch (err) {
-      console.error("操作失败", err);
-      wx.showToast({ title: '入库失败，请重试', icon: 'none' });
+      // ...
     } finally {
+      this.setData({ isSubmitting: false }); // 解锁
       wx.hideLoading();
     }
   },
@@ -108,7 +87,20 @@ Page({
       count: 1,
       mediaType: ['image'],
       success: (res) => {
-        this.setData({ tempImagePath: res.tempFiles[0].tempFilePath });
+        const tempFilePath = res.tempFiles[0].tempFilePath;
+  
+        // 重点：调用微信原生裁剪
+        wx.cropImage({
+          src: tempFilePath, // 传入刚选好的图片
+          aspectRatio: '1:1', // 强制 1:1，适合你的菜谱正方形卡片
+          success: (cropRes) => {
+            // 裁剪成功后，返回的是裁剪后的新路径
+            this.setData({ tempImagePath: cropRes.tempFilePath });
+          },
+          fail: (err) => {
+            console.log('用户取消或裁剪失败', err);
+          }
+        });
       }
     });
   },
