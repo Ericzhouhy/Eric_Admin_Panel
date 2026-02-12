@@ -344,3 +344,67 @@
   transform: translateY(2rpx);
   box-shadow: 0 4rpx 10rpx rgba(7, 193, 96, 0.2);
 }
+
+/* 遮罩层 */
+.ask-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 1000;
+  backdrop-filter: blur(4rpx);
+}
+.mask-show { opacity: 1; visibility: visible; }
+
+/* 弹出窗口 */
+.ask-popup {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #ffffff;
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 50rpx 40rpx calc(env(safe-area-inset-bottom) + 40rpx);
+  z-index: 1001;
+  transform: translateY(100%);
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.1);
+  text-align: center;
+}
+.ask-show { transform: translateY(0); }
+
+.ask-header { margin-bottom: 30rpx; }
+.ask-icon { font-size: 60rpx; }
+.ask-title { font-size: 28rpx; color: #8e8e93; margin-top: 10rpx; font-weight: bold; }
+
+.ask-content {
+  font-size: 36rpx;
+  color: #333;
+  margin-bottom: 50rpx;
+  line-height: 1.6;
+}
+.dish-highlight { color: #07c160; font-weight: bold; }
+
+.ask-footer { display: flex; gap: 20rpx; }
+
+.ask-btn-cancel, .ask-btn-confirm {
+  flex: 1;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 50rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ask-btn-cancel {
+  background: #f2f2f7;
+  color: #8e8e93;
+}
+
+.ask-btn-confirm {
+  background: linear-gradient(135deg, #07c160, #05944a);
+  color: #ffffff;
+  box-shadow: 0 10rpx 20rpx rgba(7, 193, 96, 0.2);
+}

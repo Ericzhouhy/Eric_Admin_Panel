@@ -7,6 +7,8 @@ Page({
     isPopupVisible: false,
     newName: '',
     newDesc: '',
+    showAskPopup: false,
+    selectedDish: '',
     tempImagePath: ''
   },
 
@@ -142,6 +144,46 @@ Page({
       newName: '',
       newDesc: '',
       tempImagePath: ''
+    });
+  },
+
+  onTapRecipe(e) {
+    this.setData({
+      selectedDish: e.currentTarget.dataset.name,
+      showAskPopup: true
+    });
+    wx.vibrateShort({ type: 'light' }); // 点击卡片轻微震动
+  },
+
+  closeAskPopup() {
+    this.setData({ showAskPopup: false });
+  },
+
+  async notifyEric() {
+    const dish = this.data.selectedDish;
+    this.closeAskPopup();
+    
+    wx.showLoading({ title: '正在传达信号...' });
+
+    wx.request({
+      url: 'https://api2.pushdeer.com/message/push',
+      method: 'POST',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      data: {
+        pushkey: 'PDU39173TM5FrwQfj4wIKWNfeToTdcg30O6e3t81T',
+        text: '🍲 有人馋啦！',
+        desp: `Wendy 翻看菜谱后盯上了：【${dish}】。准备开火吧！`
+      },
+      success: () => {
+        wx.showToast({ title: '已收到，准备开火！', icon: 'success' });
+        wx.vibrateShort({ type: 'medium' });
+      },
+      fail: () => {
+        wx.showToast({ title: '信号飞走了...', icon: 'none' });
+      },
+      complete: () => {
+        wx.hideLoading();
+      }
     });
   },
 

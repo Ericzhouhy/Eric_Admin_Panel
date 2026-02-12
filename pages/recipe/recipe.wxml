@@ -1,6 +1,7 @@
 <view class="container">
   <scroll-view scroll-y="true" class="recipe-list" enhanced show-scrollbar="{{false}}">
-    <view class="recipe-card" wx:for="{{recipes}}" wx:key="id">
+    <view class="recipe-card" wx:for="{{recipes}}" wx:key="id" 
+      bindtap="onTapRecipe" data-name="{{item.name}}">
       <view class="card-left">
         <image 
           class="recipe-img" 
@@ -50,5 +51,20 @@
       <button class="btn-cancel" bindtap="hidePopup">再想想</button>
       <button class="btn-confirm" bindtap="addRecipe">确认入库</button>
     </view>
+  </view>
+</view>
+
+<view class="ask-mask {{showAskPopup ? 'mask-show' : ''}}" bindtap="closeAskPopup"></view>
+<view class="ask-popup {{showAskPopup ? 'ask-show' : ''}}">
+  <view class="ask-header">
+    <text class="ask-icon">😋</text>
+    <view class="ask-title">心动信号</view>
+  </view>
+  <view class="ask-content">
+    你是不是想吃 <text class="dish-highlight">「{{selectedDish}}」</text> 了？
+  </view>
+  <view class="ask-footer">
+    <button class="ask-btn-cancel" bindtap="closeAskPopup">没，我就看看</button>
+    <button class="ask-btn-confirm" bindtap="notifyEric">告诉 Eric</button>
   </view>
 </view>
