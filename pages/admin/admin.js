@@ -92,6 +92,47 @@ Page({
     }
   },
 
+  // 核心功能：调用清理云函数
+  async onClearUsed() {
+    wx.showModal({
+      title: '清理确认',
+      content: '确定要永久删除所有【已使用】的特权卡吗？此操作不可撤销。',
+      confirmColor: '#FF3B30',
+      success: async (res) => {
+        if (res.confirm) {
+          wx.showLoading({ title: '清理中...' });
+          
+          try {
+            const result = await wx.cloud.callFunction({
+              name: 'clearUsedPrivileges' // 确保和你的云函数名字一致
+            });
+            
+            wx.hideLoading();
+            
+            if (result.result.success) {
+              wx.showToast({
+                title: `已清理 ${result.result.deletedCount} 条`,
+                icon: 'success'
+              });
+              // 刷新一下列表（虽然列表通常只显示 isUsed: false 的，但刷新更稳健）
+              this.fetchExistingCards();
+            } else {
+              throw new Error(result.result.error);
+            }
+          } catch (err) {
+            wx.hideLoading();
+            console.error('清理失败', err);
+            wx.showModal({
+              title: '清理失败',
+              content: '请确认云函数已部署且名字正确',
+              showCancel: false
+            });
+          }
+        }
+      }
+    });
+  },
+
   getRandomColor() {
     const colors = ['#FF9500', '#FF3B30', '#4CD964', '#5AC8FA', '#AF52DE', '#FF2D55'];
     return colors[Math.floor(Math.random() * colors.length)];

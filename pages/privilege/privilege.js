@@ -206,6 +206,10 @@ Page({
     
     wx.request({
       url: 'https://api2.pushdeer.com/message/push',
+      method: 'POST', // 改为 POST
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
       data: {
         pushkey: 'PDU39173TM5FrwQfj4wIKWNfeToTdcg30O6e3t81T', 
         text: '👑 女王行使特权啦！',

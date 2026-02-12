@@ -29,4 +29,9 @@
 
     <button class="btn-submit" bindtap="submitCard">立即发放特权</button>
   </view>
+  <view class="admin-section-title">🧹 维护中心</view>
+  <view class="form-card cleanup-card">
+    <view class="label-text">清理已生效的特权，保持数据库整洁</view>
+    <button class="btn-cleanup" bindtap="onClearUsed">清理已使用卡片</button>
+  </view>
 </view>

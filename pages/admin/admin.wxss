@@ -105,3 +105,34 @@
 .admin-input::placeholder, .admin-textarea::placeholder {
   color: #BDBDBD;
 }
+
+.admin-section-title {
+  margin: 40rpx 0 20rpx 10rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #8E8E93;
+}
+
+.cleanup-card {
+  margin-top: 0;
+}
+
+.btn-cleanup {
+  margin-top: 10rpx;
+  background: #ffffff;
+  color: #FF3B30; /* 警示红 */
+  border: 2rpx solid #FF3B30;
+  font-weight: 500;
+  border-radius: 30rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-cleanup:active {
+  background: #FFF5F5;
+  transform: scale(0.98);
+}

@@ -228,21 +228,71 @@
 /* 图片上传区域：从虚线框改为更有质感的卡片 */
 .image-placeholder {
   width: 100%;
-  height: 280rpx;
-  background: #f7f8fa;
-  border: 2rpx dashed #d1d5db;
-  border-radius: 24rpx;
+  height: 320rpx; /* 稍微加高一点 */
+  background: #f8fafc; /* 使用更清爽的蓝灰色调 */
+  border: 3rpx solid #e2e8f0; /* 实线边框比虚线更显高级 */
+  border-radius: 32rpx; /* 圆角更圆润 */
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* 保证预览图圆角一致 */
-  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
+.upload-tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.icon-plus {
+  width: 30rpx;
+  height: 4rpx;
+  background: #94a3b8;
+  position: relative;
+}
+.icon-plus::after {
+  content: '';
+  position: absolute;
+  width: 4rpx;
+  height: 30rpx;
+  background: #94a3b8;
+  left: 13rpx;
+  top: -13rpx;
+}
+
+/* 主标题 */
+.upload-tip text:first-of-type {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* 副标题（增加情绪价值） */
+.upload-sub-tip {
+  font-size: 22rpx;
+  color: #94a3b8;
+  margin-top: 8rpx;
+}
+
+/* 点击态 */
 .image-placeholder:active {
-  background: #f0f2f5;
-  transform: scale(0.99);
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: scale(0.98);
 }
 
 .image-placeholder image {

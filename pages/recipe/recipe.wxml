@@ -37,7 +37,13 @@
       <textarea class="popup-textarea" placeholder="食材清单（如：鸡蛋、番茄、小葱）" model:value="{{newDesc}}" />
       <view class="image-placeholder" bindtap="chooseImage">
         <image wx:if="{{tempImagePath}}" src="{{tempImagePath}}" mode="aspectFill"></image>
-        <text wx:else>+ 点击上传菜品图片</text>
+        <view wx:else class="upload-tip">
+          <view class="upload-icon">
+            <view class="icon-plus"></view>
+          </view>
+          <text>上传菜品照片</text>
+          <text class="upload-sub-tip">😋😋😋</text>
+        </view>
       </view>
     </view>
     <view class="popup-footer">

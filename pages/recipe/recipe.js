@@ -162,7 +162,7 @@ Page({
             wx.showLoading({ title: '处理中...' });
             wx.compressImage({
               src: cropRes.tempFilePath, // 裁剪后的路径
-              quality: 75, // 建议值 75：在保持清晰度和减小体积之间取得完美平衡
+              quality: 60, // 建议值 75：在保持清晰度和减小体积之间取得完美平衡
               success: (compressRes) => {
                 // 最终存入 data 的是压缩后的路径
                 this.setData({ tempImagePath: compressRes.tempFilePath });
